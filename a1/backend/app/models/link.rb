@@ -4,6 +4,7 @@ class Link < ApplicationRecord
   validates_presence_of :url
   validates_uniqueness_of :short_code
   validates :url, format: URI::regexp(%w[http https])
+  validates_presence_of :clicks
 
   before_create :generate_short_code
   CHARSET = [*'a'..'z', *'A'..'Z', *'0'..'9']
