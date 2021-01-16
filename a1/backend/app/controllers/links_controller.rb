@@ -43,7 +43,7 @@ class LinksController < ApplicationController
   def redirect
     @link = Link.find_by_short_code(params[:short_code])
     if @link.nil?
-      render 'errors/404', status: 404
+      render file: "#{Rails.root}/public/404.html" , status: 404
     else
       @link.update_attributes(clicks: @link.clicks + 1)
       redirect_to @link.url
