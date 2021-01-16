@@ -21,11 +21,9 @@ class Link < ApplicationRecord
       length += 1
     end
 
-    code = ''
     while true do
-      code = CHARSET.sample(length).join
-      break if Link.find_by_short_code(code).nil?
+      self.short_code = CHARSET.sample(length).join
+      break if self.valid?
     end
-    self.short_code = code
   end
 end
