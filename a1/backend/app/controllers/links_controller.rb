@@ -1,6 +1,10 @@
 class LinksController < ApplicationController
   before_action :set_link, only: [:show, :update, :destroy]
 
+  def user_index
+    render json: Link.where(user_id: params[:id]), status: :ok
+  end
+
   # GET /links
   # GET /links.json
   def index
@@ -18,7 +22,7 @@ class LinksController < ApplicationController
     @link = Link.new(link_params)
 
     if @link.save
-      render :show, status: :created, location: @link
+      render json: @link, status: :created
     else
       render json: @link.errors, status: :unprocessable_entity
     end
@@ -28,7 +32,7 @@ class LinksController < ApplicationController
   # PATCH/PUT /links/1.json
   def update
     if @link.update(link_params)
-      render :show, status: :ok, location: @link
+      render json: @link, status: :ok
     else
       render json: @link.errors, status: :unprocessable_entity
     end

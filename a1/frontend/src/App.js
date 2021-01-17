@@ -4,21 +4,20 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Login from './components/login/login';
+import Landing from './components/landing/landing';
 import Register from './components/register/register';
-import { Button } from 'reactstrap';
 import { Container, Row } from 'react-bootstrap';
-import {ReactComponent as LogoutSVG} from './svgs/logout.svg';
 
 class App extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
+      id: localStorage.getItem('id'),
       token: localStorage.getItem('token'),
       login: true
     }
     this.handleToken = this.handleToken.bind(this);
-    this.handleLogout = this.handleLogout.bind(this);
   }
 
   render() {
@@ -51,19 +50,7 @@ class App extends React.Component {
     }
     else {
       return(
-        <Container>
-          <Row className="justify-content-md-end">
-            <Button color="primary" id="continue" onClick={this.handleLogout}>
-              <LogoutSVG width="20px" height="20px" fill="white"/> Log out
-            </Button>
-          </Row>
-          <Row className="justify-content-md-center">
-            <h1>Shortr</h1>
-          </Row>
-          <Row className="justify-content-md-center">
-            <h5>Welcome back!</h5>
-          </Row>
-        </Container>
+        <Landing token={this.state.token} id={this.state.id}/>
       );
     }
   }
@@ -71,16 +58,12 @@ class App extends React.Component {
   handleToken(data) {
     console.log(data)
     localStorage.setItem('token', data.headers.authorization);
+    localStorage.setItem('id', data.data.id);
 
     this.setState({
-      token: data.headers.authorization
+      token: data.headers.authorization,
+      id: data.data.id
     });
-  }
-
-  handleLogout() {
-    localStorage.removeItem('token');
-    this.setState({ login: true });
-    window.location.reload(false);
   }
 }
 
