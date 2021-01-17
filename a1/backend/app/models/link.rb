@@ -1,6 +1,6 @@
 class Link < ApplicationRecord
   belongs_to :user
-  has_many :visits
+  has_many :visits, dependent: :delete_all
 
   validates_presence_of :url
   validates_uniqueness_of :short_code

@@ -2,7 +2,12 @@ class LinksController < ApplicationController
   before_action :set_link, only: [:show, :update, :destroy]
 
   def user_index
-    render json: Link.where(user_id: params[:id]), status: :ok
+    links = Link.where(user_id: params[:id]).includes(:visits)
+    links_json = links.as_json
+    links.each_with_index do |link, i|
+      links_json[i]['visits'] = link.visits.as_json
+    end
+    render json: links_json, status: :ok
   end
 
   # GET /links
@@ -50,7 +55,7 @@ class LinksController < ApplicationController
       render file: "#{Rails.root}/public/404.html" , status: 404
     else
       @link.update_attributes(clicks: @link.clicks + 1)
-      @visit = Visit.find_by_ip(requester_ip)
+      @visit = Visit.find_by(ip: requester_ip, link: @link)
       if @visit.nil?
         @visit = Visit.create(visit_params)
       else

@@ -47,7 +47,6 @@ ActiveRecord::Schema.define(version: 2021_01_17_061221) do
     t.bigint "link_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["ip"], name: "index_visits_on_ip", unique: true
     t.index ["link_id"], name: "index_visits_on_link_id"
   end
 
