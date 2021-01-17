@@ -1,3 +1,5 @@
+require 'resolv'
+
 class Visit < ApplicationRecord
   belongs_to :link
 

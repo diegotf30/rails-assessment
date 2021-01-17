@@ -16,9 +16,9 @@ ActiveRecord::Schema.define(version: 2021_01_17_061221) do
   enable_extension "plpgsql"
 
   create_table "links", force: :cascade do |t|
-    t.string "url"
-    t.string "short_code"
-    t.integer "clicks"
+    t.string "url", default: "", null: false
+    t.string "short_code", null: false
+    t.integer "clicks", default: 0
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

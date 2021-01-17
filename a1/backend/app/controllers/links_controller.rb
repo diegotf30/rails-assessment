@@ -50,7 +50,7 @@ class LinksController < ApplicationController
       render file: "#{Rails.root}/public/404.html" , status: 404
     else
       @link.update_attributes(clicks: @link.clicks + 1)
-      @visit = Visit.find_by_ip(user_agent.ip)
+      @visit = Visit.find_by_ip(requester_ip)
       if @visit.nil?
         @visit = Visit.create(visit_params)
       else
@@ -72,17 +72,22 @@ class LinksController < ApplicationController
       params.require(:link).permit(:url, :short_code, :clicks, :user_id)
     end
 
+    def requester_ip
+      request.remote_ip
+    end
+
     def user_agent
-      UserAgent.parse(request.headers['User-Agent'])
+      UserAgent.parse(request.headers['User-Agent'] || "")
     end
 
     def visit_params
       {
-        ip: user_agent.ip,
+        ip: requester_ip,
         os: user_agent.os,
         platform: user_agent.platform,
         browser: user_agent.browser,
-        mobile: user_agent.mobile?
+        mobile: user_agent.mobile?,
+        link: @link
       }
     end
 end
