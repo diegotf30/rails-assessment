@@ -50,6 +50,13 @@ class LinksController < ApplicationController
       render file: "#{Rails.root}/public/404.html" , status: 404
     else
       @link.update_attributes(clicks: @link.clicks + 1)
+      @visit = Visit.find_by_ip(user_agent.ip)
+      if @visit.nil?
+        @visit = Visit.create(visit_params)
+      else
+        @visit.update_attributes(visits: @visit.visits + 1)
+      end
+
       redirect_to @link.url
     end
   end
@@ -63,5 +70,19 @@ class LinksController < ApplicationController
     # Only allow a list of trusted parameters through.
     def link_params
       params.require(:link).permit(:url, :short_code, :clicks, :user_id)
+    end
+
+    def user_agent
+      UserAgent.parse(request.headers['User-Agent'])
+    end
+
+    def visit_params
+      {
+        ip: user_agent.ip,
+        os: user_agent.os,
+        platform: user_agent.platform,
+        browser: user_agent.browser,
+        mobile: user_agent.mobile?
+      }
     end
 end

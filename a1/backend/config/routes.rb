@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :visits
   resources :links
   get 'users/:id/links', to: 'links#user_index'
   devise_for :users, defaults: { format: :json }, controllers: {

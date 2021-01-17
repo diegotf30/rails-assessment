@@ -1,13 +1,21 @@
 class Link < ApplicationRecord
   belongs_to :user
+  has_many :visits
 
   validates_presence_of :url
   validates_uniqueness_of :short_code
   validates :url, format: URI::regexp(%w[http https])
-  validates_presence_of :clicks
 
   before_create :generate_short_code
   CHARSET = [*'a'..'z', *'A'..'Z', *'0'..'9']
+
+  def unique_visitors
+    visits.count
+  end
+
+  def recurrent_visitors
+    visits.where('visits > 1').count
+  end
 
   private
 

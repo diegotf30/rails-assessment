@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/jilion/useragent.git
+  revision: 742f29d8643f378773a933b3c0a37ce1bc52a7aa
+  specs:
+    useragent (0.2.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -259,6 +265,7 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
   uglifier (>= 1.3.0)
+  useragent!
   web-console (>= 3.3.0)
   webdrivers
 

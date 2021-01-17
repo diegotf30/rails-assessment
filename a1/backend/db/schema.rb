@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_16_193309) do
+ActiveRecord::Schema.define(version: 2021_01_17_061221) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,5 +37,20 @@ ActiveRecord::Schema.define(version: 2021_01_16_193309) do
     t.index ["jti"], name: "index_users_on_jti", unique: true
   end
 
+  create_table "visits", force: :cascade do |t|
+    t.string "ip", null: false
+    t.string "os"
+    t.string "platform"
+    t.string "browser"
+    t.boolean "mobile"
+    t.integer "visits", default: 1
+    t.bigint "link_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ip"], name: "index_visits_on_ip", unique: true
+    t.index ["link_id"], name: "index_visits_on_link_id"
+  end
+
   add_foreign_key "links", "users"
+  add_foreign_key "visits", "links"
 end
