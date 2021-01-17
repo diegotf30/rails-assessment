@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import validator from 'validator'
 import { Popover, PopoverHeader, PopoverBody } from 'reactstrap';
-import { Row, Container, InputGroup, FormControl, Button, Card } from 'react-bootstrap';
+import { Row, Container, InputGroup, FormControl, Button } from 'react-bootstrap';
 import {ReactComponent as LogoutSVG} from '../../svgs/logout.svg';
 import LinkCard from './link_card';
 
@@ -61,9 +61,13 @@ class Landing extends React.Component {
                 <Row className="justify-content-md-center">
                     <h5>Your links</h5>
                 </Row>
-                <Row className="justify-content-md-center">
-                    {this.state.links.map(link => <LinkCard link={link}/> )}
-                </Row>
+                    {this.state.links.map(link => {
+                        return (
+                            <Row className="justify-content-md-center mb-4">
+                                <LinkCard link={link}/>
+                            </Row>
+                        );
+                    })}
             </Container>
         );
     }

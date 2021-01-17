@@ -6,7 +6,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Login from './components/login/login';
 import Landing from './components/landing/landing';
 import Register from './components/register/register';
+import Redirect from './components/redirect';
 import { Container, Row } from 'react-bootstrap';
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 class App extends React.Component {
 
@@ -50,7 +52,12 @@ class App extends React.Component {
     }
     else {
       return(
-        <Landing token={this.state.token} id={this.state.id}/>
+        <Router>
+          <Route exact path="/">
+            <Landing token={this.state.token} id={this.state.id}/>
+          </Route>
+          <Route path="/:shortCode" component={Redirect} />
+        </Router>
       );
     }
   }
