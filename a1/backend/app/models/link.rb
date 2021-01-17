@@ -9,12 +9,8 @@ class Link < ApplicationRecord
   before_create :generate_short_code
   CHARSET = [*'a'..'z', *'A'..'Z', *'0'..'9']
 
-  def unique_visitors
-    visits.count
-  end
-
   def recurrent_visitors
-    visits.where('visits > 1').count
+    visits.where('visits > 1')
   end
 
   private
