@@ -95,6 +95,7 @@ class Landing extends React.Component {
             axios.post(`/links`, postBody, { headers: { authentication: this.props.token } })
                 .then(res => {
                     console.log(res);
+                    window.location.reload(false);
                 })
                 .catch(err => {
                     console.log(err);

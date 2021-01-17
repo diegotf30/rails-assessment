@@ -2,7 +2,7 @@ class LinksController < ApplicationController
   before_action :set_link, only: [:show, :update, :destroy]
 
   def user_index
-    links = Link.where(user_id: params[:id]).includes(:visits)
+    links = Link.where(user_id: params[:id]).includes(:visits).order(created_at: :desc)
     links_json = links.as_json
     links.each_with_index do |link, i|
       links_json[i]['visits'] = link.visits.as_json
