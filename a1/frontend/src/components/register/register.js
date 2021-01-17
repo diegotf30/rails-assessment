@@ -1,13 +1,15 @@
 import axios from 'axios';
 import React from 'react';
 import { Button, Input, Popover, PopoverHeader, PopoverBody } from 'reactstrap';
-import { FormGroup, Form, Col, Row, Container } from 'react-bootstrap';
+import { FormGroup, Form, Col, Row, Container, Alert } from 'react-bootstrap';
 
 class Register extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            hasError : false,
+            isEmpty : false,
+            showErrors: false,
+            errors: [],
             name: '',
             email : '',
             password: '',
@@ -23,14 +25,21 @@ class Register extends React.Component {
     }
 
     render() {
+        console.log(this.state.errors)
         return(
             <Container>
-                <Popover placement="bottom" isOpen={this.state.hasError} target="continue">
+                <Popover placement="bottom" isOpen={this.state.isEmpty} target="continue">
                     <PopoverHeader>Error</PopoverHeader>
                     <PopoverBody>
                         Todos los campos deben de estar llenos.
                     </PopoverBody>
                 </Popover>
+
+                <Alert variant="danger" className={this.state.showErrors ? '' : 'd-none'}>
+                    <ul>
+                        { this.state.errors.map(err => <li>{err}</li>) }
+                    </ul>
+                </Alert>
 
                 <FormGroup id="loginForm" className="">
                     <Col>
@@ -117,15 +126,14 @@ class Register extends React.Component {
     }
 
     handleRegistration() {
-        console.log(this.state)
         if(this.state.email === "" || this.state.password === ""
            || this.state.password_confirmation === ""
            || this.state.name === "") {
             this.setState({
-                hasError : true,
+                isEmpty : true,
             });
             setTimeout(function() {
-                this.setState({ hasError: false});
+                this.setState({ isEmpty: false});
             }.bind(this),3500);
             return;
         }
@@ -136,6 +144,14 @@ class Register extends React.Component {
             })
             .catch(err => {
                 console.log(err);
+                let errorMsgs = [];
+                let errors = err.response.data.errors;
+                for (let k in errors) {
+                    errors[k].map(msg => errorMsgs.push(`${k} ${msg}`));
+                }
+                console.log(errorMsgs);
+                this.setState({ showErrors: true });
+                this.setState({ errors: errorMsgs });
             })
     }
 }

@@ -5,4 +5,5 @@ Rails.application.routes.draw do
     registrations: 'auth/registrations'
   }
   get '/:short_code', to: 'links#redirect'
+  root to: 'root#root'
 end

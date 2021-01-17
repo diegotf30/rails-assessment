@@ -79,6 +79,7 @@ class App extends React.Component {
 
   handleLogout() {
     localStorage.removeItem('token');
+    this.setState({ login: true });
     window.location.reload(false);
   }
 }
