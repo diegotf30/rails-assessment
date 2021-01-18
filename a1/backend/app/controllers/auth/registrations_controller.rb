@@ -2,7 +2,7 @@
 
 class Auth::RegistrationsController < Devise::RegistrationsController
   protect_from_forgery with: :null_session
-  skip_before_action :verstify_authenticity_token
+  skip_before_action :verify_authenticity_token
   before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
